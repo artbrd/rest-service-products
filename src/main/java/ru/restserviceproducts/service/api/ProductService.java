@@ -6,6 +6,6 @@ import ru.restserviceproducts.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-    public List<Product> findAll();
-    public Product findById(Long id);
+    List<Product> findAll();
+    Product findById(Long id);
 }

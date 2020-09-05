@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.restserviceproducts.entity.Product;
+import ru.restserviceproducts.entity.RuleProduct;
 import ru.restserviceproducts.service.api.ProductService;
+import ru.restserviceproducts.service.api.RuleProductService;
 
 import java.util.List;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private RuleProductService ruleProductService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
@@ -26,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{productId}")
-    public ResponseEntity<Object> getById(@PathVariable long productId) {
+    public ResponseEntity<Object> getById(@PathVariable Long productId) {
         Product product = productService.findById(productId);
         if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором {" + productId + "} не найден");
@@ -34,12 +39,12 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    /*@GetMapping(value = "/{productId}/rules", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getAllRulesProduct() {
-        Product product = productService.findById(7L);
-        if (product == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором {7} не найден");
+    @GetMapping(value = "/{productId}/rules")
+    public ResponseEntity<RuleProduct> getAllRulesProduct(@PathVariable Long productId) {
+        RuleProduct ruleProductList = ruleProductService.findAllRulesProduct(productId);
+        if (ruleProductList == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(product);
-    }*/
+        return ResponseEntity.ok(ruleProductList);
+    }
 }

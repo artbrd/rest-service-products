@@ -14,4 +14,9 @@ import java.util.List;
 public class RuleProductServiceImpl implements RuleProductService {
     @Autowired
     private RuleProductRepository ruleProductRepository;
+
+    @Override
+    public RuleProduct findAllRulesProduct(Long id) {
+        return ruleProductRepository.findByProductsId(id);
+    }
 }
