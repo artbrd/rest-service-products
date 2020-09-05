@@ -6,38 +6,40 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.restserviceproducts.entity.Product;
-import ru.restserviceproducts.repository.ProductRepository;
+import ru.restserviceproducts.service.api.ProductService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> getByAll() {
-            return productRepository.findAll();
-    }
-
-    @GetMapping(value = "/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getById(@PathVariable long productId) {
-        return productRepository.findById(productId);
-    }
-
-    @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Product>> findAll() {
-            return ResponseEntity.ok(productRepository.findAll());
-    }
-
-    @GetMapping(value = "/test/{productId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Product>> findContactById(@PathVariable long productId) {
-        Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent() == false) {
+    @GetMapping
+    public ResponseEntity<List<Product>> getAll() {
+        List<Product> productList = productService.findAll();
+        if (productList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(productList);
+    }
+
+    @GetMapping(value = "/{productId}")
+    public ResponseEntity<Object> getById(@PathVariable long productId) {
+        Product product = productService.findById(productId);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором {" + productId + "} не найден");
         }
         return ResponseEntity.ok(product);
     }
+
+    /*@GetMapping(value = "/{productId}/rules", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getAllRulesProduct() {
+        Product product = productService.findById(7L);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором {7} не найден");
+        }
+        return ResponseEntity.ok(product);
+    }*/
 }
