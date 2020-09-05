@@ -14,9 +14,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "rules_rpoduct")
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id")*/
 public class RuleProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,22 +24,20 @@ public class RuleProduct implements Serializable {
     private long id;
 
     @Column(name = "start_salary")
-    private Double start_salary;
+    private Long start_salary;
 
     @Column(name = "end_salary")
-    private Double end_salary;
+    private Long end_salary;
 
     @Column(name = "is_debt")
     private Boolean is_debt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
-    //@DateTimeFormat(pattern="dd-mm-yyyy")
     @Column(name = "date_create")
     @CreatedDate
     private Date date_create;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
-    //@DateTimeFormat(pattern="dd-mm-yyyy")
     @Column(name = "date_update")
     @LastModifiedDate
     private Date date_update;
@@ -48,11 +46,7 @@ public class RuleProduct implements Serializable {
     private boolean is_active;
 
     @ManyToMany(mappedBy = "rules", fetch = FetchType.LAZY)
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "t_product_rules",
-            joinColumns =  @JoinColumn(name = "rule_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))*/
-    //@JsonIgnore
+    @JsonIgnore
     private Set<Product> products;
 
     public long getId() {
@@ -63,19 +57,19 @@ public class RuleProduct implements Serializable {
         this.id = id;
     }
 
-    public Double getStart_salary() {
+    public Long getStart_salary() {
         return start_salary;
     }
 
-    public void setStart_salary(Double start_salary) {
+    public void setStart_salary(Long start_salary) {
         this.start_salary = start_salary;
     }
 
-    public Double getEnd_salary() {
+    public Long getEnd_salary() {
         return end_salary;
     }
 
-    public void setEnd_salary(Double end_salary) {
+    public void setEnd_salary(Long end_salary) {
         this.end_salary = end_salary;
     }
 

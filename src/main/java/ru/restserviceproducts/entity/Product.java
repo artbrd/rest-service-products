@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,9 +16,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "products")
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id")*/
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,25 +29,23 @@ public class Product implements Serializable {
     private String name;
 
     @Column(name = "start_sum_cred")
-    private Double startSumCred;
+    private Long startSumCred;
 
     @Column(name = "end_sum_cred")
-    private Double endSumCred;
+    private Long endSumCred;
 
     @Column(name = "percent")
-    private double percent;
+    private long percent;
 
     @Column(name = "term")
     private int term;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
-    //@DateTimeFormat(pattern="dd-mm-yyyy")
     @Column(name = "date_create")
     @CreatedDate
     private Date dateCreate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
-    //@DateTimeFormat(pattern="dd-mm-yyyy")
     @Column(name = "date_update")
     @LastModifiedDate
     private Date dateUpdate;
@@ -53,12 +53,11 @@ public class Product implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
-    //@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "t_product_rules",
             joinColumns =  @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "rule_id"))
-    //@JsonIgnore
+    @JsonIgnore
     private Set<RuleProduct> rules;
 
     public long getId() {
@@ -77,27 +76,27 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public Double getStartSumCred() {
+    public Long getStartSumCred() {
         return startSumCred;
     }
 
-    public void setStartSumCred(Double startSumCred) {
+    public void setStartSumCred(Long startSumCred) {
         this.startSumCred = startSumCred;
     }
 
-    public Double getEndSumCred() {
+    public Long getEndSumCred() {
         return endSumCred;
     }
 
-    public void setEndSumCred(Double endSumCred) {
+    public void setEndSumCred(Long endSumCred) {
         this.endSumCred = endSumCred;
     }
 
-    public double getPercent() {
+    public Long getPercent() {
         return percent;
     }
 
-    public void setPercent(double percent) {
+    public void setPercent(Long percent) {
         this.percent = percent;
     }
 

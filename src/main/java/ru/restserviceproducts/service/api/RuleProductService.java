@@ -5,5 +5,5 @@ import ru.restserviceproducts.entity.RuleProduct;
 import java.util.List;
 
 public interface RuleProductService {
-    RuleProduct findAllRulesProduct(Long id);
+    List<RuleProduct> findAllRulesProduct(Long id);
 }

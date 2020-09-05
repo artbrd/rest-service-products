@@ -16,7 +16,7 @@ public class RuleProductServiceImpl implements RuleProductService {
     private RuleProductRepository ruleProductRepository;
 
     @Override
-    public RuleProduct findAllRulesProduct(Long id) {
+    public List<RuleProduct> findAllRulesProduct(Long id) {
         return ruleProductRepository.findByProductsId(id);
     }
 }

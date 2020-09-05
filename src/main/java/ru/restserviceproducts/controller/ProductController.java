@@ -40,9 +40,9 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{productId}/rules")
-    public ResponseEntity<RuleProduct> getAllRulesProduct(@PathVariable Long productId) {
-        RuleProduct ruleProductList = ruleProductService.findAllRulesProduct(productId);
-        if (ruleProductList == null) {
+    public ResponseEntity<List<RuleProduct>> getAllRulesProduct(@PathVariable Long productId) {
+        List<RuleProduct> ruleProductList = ruleProductService.findAllRulesProduct(productId);
+        if (ruleProductList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(ruleProductList);

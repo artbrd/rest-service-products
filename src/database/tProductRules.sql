@@ -12,3 +12,5 @@ INSERT INTO t_product_rules (product_id, rule_id)
     VALUES (8, 2);
 INSERT INTO t_product_rules (product_id, rule_id)
     VALUES (9, 3);
+INSERT INTO t_product_rules (product_id, rule_id)
+    VALUES (7, 3);
