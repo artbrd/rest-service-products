@@ -1,11 +1,8 @@
 package ru.restserviceproducts.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,9 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product")
-/*@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")*/
+@JsonIgnoreProperties({"isActive", "rules", "dateCreate", "dateUpdate"})
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,21 +33,21 @@ public class Product implements Serializable {
     @Column(name = "term")
     private int term;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    @CreationTimestamp
     @Column(name = "date_create")
-    @CreatedDate
     private Date dateCreate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    @UpdateTimestamp
     @Column(name = "date_update")
-    @LastModifiedDate
     private Date dateUpdate;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = true;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    @JsonIgnore
+    //@JsonIgnore
     private Set<Rule> rules;
 
     public long getId() {
@@ -119,13 +114,11 @@ public class Product implements Serializable {
         this.dateUpdate = dateUpdate;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
+    public void setPercent(long percent) { this.percent = percent; }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
+    public boolean getIsActive() { return isActive; }
+
+    public void setIsActive(boolean active) { isActive = active; }
 
     public Set<Rule> getRules() {
         return rules;

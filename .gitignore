@@ -2,3 +2,4 @@
 *.iml
 /src/database/**.*
 /target/**.*
+/src/json/**.*

@@ -1,11 +1,8 @@
 package ru.restserviceproducts.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,9 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "rule")
-/*@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")*/
+@JsonIgnoreProperties({"isActive", "product", "dateCreate", "dateUpdate"})
 public class Rule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,106 +18,74 @@ public class Rule implements Serializable {
     private long id;
 
     @Column(name = "start_salary")
-    private Long start_salary;
+    private Long startSalary;
 
     @Column(name = "end_salary")
-    private Long end_salary;
+    private Long endSalary;
 
     @Column(name = "is_debt")
-    private Boolean is_debt;
+    private Boolean isDebt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    @CreationTimestamp
     @Column(name = "date_create")
-    @CreatedDate
-    private Date date_create;
+    private Date dateCreate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-mm-yyyy")
+    @UpdateTimestamp
     @Column(name = "date_update")
-    @LastModifiedDate
-    private Date date_update;
+    private Date dateUpdate;
 
     @Column(name = "is_active")
-    private boolean is_active;
+    private boolean isActive = true;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_product", nullable = false)
     private Product product;
 
-    public long getId() {
-        return id;
-    }
+    public long getId() { return id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
-    public Long getStart_salary() {
-        return start_salary;
-    }
+    public Long getStartSalary() { return startSalary; }
 
-    public void setStart_salary(Long start_salary) {
-        this.start_salary = start_salary;
-    }
+    public void setStartSalary(Long startSalary) { this.startSalary = startSalary; }
 
-    public Long getEnd_salary() {
-        return end_salary;
-    }
+    public Long getEndSalary() { return endSalary; }
 
-    public void setEnd_salary(Long end_salary) {
-        this.end_salary = end_salary;
-    }
+    public void setEndSalary(Long endSalary) { this.endSalary = endSalary; }
 
-    public Boolean getIs_debt() {
-        return is_debt;
-    }
+    public Boolean getIsDebt() { return isDebt; }
 
-    public void setIs_debt(Boolean is_debt) {
-        this.is_debt = is_debt;
-    }
+    public void setIsDebt(Boolean isDebt) { this.isDebt = isDebt; }
 
-    public Date getDate_create() {
-        return date_create;
-    }
+    public Date getDateCreate() { return dateCreate; }
 
-    public void setDate_create(Date date_create) {
-        this.date_create = date_create;
-    }
+    public void setDateCreate(Date dateCreate) { this.dateCreate = dateCreate; }
 
-    public Date getDate_update() {
-        return date_update;
-    }
+    public Date getDateUpdate() { return dateUpdate; }
 
-    public void setDate_update(Date date_update) {
-        this.date_update = date_update;
-    }
+    public void setDateUpdate(Date dateUpdate) { this.dateUpdate = dateUpdate; }
 
-    public boolean isIs_active() {
-        return is_active;
-    }
+    public boolean getIsActive() { return isActive; }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
+    public void setIsActive(boolean active) { this.isActive = active; }
 
-    public Product getProduct() {
-        return product;
-    }
+    public Product getProduct() { return product; }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    public void setProduct(Product product) { this.product = product; }
 
     @Override
     public String toString() {
         return "Rule{" +
                 "id=" + id +
-                ", start_salary=" + start_salary +
-                ", end_salary=" + end_salary +
-                ", is_debt=" + is_debt +
-                ", date_create=" + date_create +
-                ", date_update=" + date_update +
-                ", is_active=" + is_active +
+                ", start_salary=" + startSalary +
+                ", end_salary=" + endSalary +
+                ", is_debt=" + isDebt +
+                ", date_create=" + dateCreate +
+                ", date_update=" + dateUpdate +
+                ", is_active=" + isActive +
                 ", product=" + product +
                 '}';
     }

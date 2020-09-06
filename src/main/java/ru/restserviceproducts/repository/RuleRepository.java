@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 import ru.restserviceproducts.entity.Rule;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RuleRepository extends JpaRepository<Rule, Long> {
-    List<Rule> findByProductId(Long id);
+    List<Rule> findByIsActiveTrueAndProductId(Long id);
+    Optional<Rule> findByProductIdAndId(Long productId, Long ruleId);
 }

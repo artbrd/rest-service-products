@@ -2,6 +2,7 @@ package ru.restserviceproducts.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.restserviceproducts.dto.ClientInfo;
 import ru.restserviceproducts.entity.Product;
 import ru.restserviceproducts.repository.ProductRepository;
 import ru.restserviceproducts.service.api.ProductService;
@@ -15,13 +16,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = productRepository.findByIsActiveTrue();
         return productList;
     }
 
     @Override
     public Product findById(Long id) {
-        Product product = productRepository.findById(id).orElse(null);
+        Product product = productRepository.findByIsActiveTrueAndId(id).orElse(null);
         return product;
+    }
+
+    @Override
+    public List<Product> getProductForClient(ClientInfo clientInfo) {
+        return productRepository.findProductForClitn(clientInfo.getSalary(), clientInfo.getClaim(), clientInfo.getIsDebtor());
     }
 }
