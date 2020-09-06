@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -15,7 +13,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "products")
+@Table(name = "product")
 /*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")*/
@@ -53,12 +51,9 @@ public class Product implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "t_product_rules",
-            joinColumns =  @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "rule_id"))
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<RuleProduct> rules;
+    private Set<Rule> rules;
 
     public long getId() {
         return id;
@@ -132,11 +127,11 @@ public class Product implements Serializable {
         isActive = active;
     }
 
-    public Set<RuleProduct> getRules() {
+    public Set<Rule> getRules() {
         return rules;
     }
 
-    public void setRules(Set<RuleProduct> rules) {
+    public void setRules(Set<Rule> rules) {
         this.rules = rules;
     }
 

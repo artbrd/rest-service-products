@@ -10,14 +10,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
-@Table(name = "rules_rpoduct")
+@Table(name = "rule")
 /*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")*/
-public class RuleProduct implements Serializable {
+public class Rule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -45,9 +44,10 @@ public class RuleProduct implements Serializable {
     @Column(name = "is_active")
     private boolean is_active;
 
-    @ManyToMany(mappedBy = "rules", fetch = FetchType.LAZY)
     @JsonIgnore
-    private Set<Product> products;
+    @ManyToOne
+    @JoinColumn(name = "id_product", nullable = false)
+    private Product product;
 
     public long getId() {
         return id;
@@ -105,17 +105,17 @@ public class RuleProduct implements Serializable {
         this.is_active = is_active;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public String toString() {
-        return "RuleProduct{" +
+        return "Rule{" +
                 "id=" + id +
                 ", start_salary=" + start_salary +
                 ", end_salary=" + end_salary +
@@ -123,7 +123,7 @@ public class RuleProduct implements Serializable {
                 ", date_create=" + date_create +
                 ", date_update=" + date_update +
                 ", is_active=" + is_active +
-                ", products=" + products +
+                ", product=" + product +
                 '}';
     }
 }

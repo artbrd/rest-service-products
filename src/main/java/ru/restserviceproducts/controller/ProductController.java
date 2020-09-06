@@ -6,9 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.restserviceproducts.entity.Product;
-import ru.restserviceproducts.entity.RuleProduct;
+import ru.restserviceproducts.entity.Rule;
 import ru.restserviceproducts.service.api.ProductService;
-import ru.restserviceproducts.service.api.RuleProductService;
+import ru.restserviceproducts.service.api.RuleService;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    private RuleProductService ruleProductService;
+    private RuleService ruleService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
@@ -34,17 +34,17 @@ public class ProductController {
     public ResponseEntity<Object> getById(@PathVariable Long productId) {
         Product product = productService.findById(productId);
         if (product == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором {" + productId + "} не найден");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Продукт с идентификатором '" + productId + "' не найден");
         }
         return ResponseEntity.ok(product);
     }
 
     @GetMapping(value = "/{productId}/rules")
-    public ResponseEntity<List<RuleProduct>> getAllRulesProduct(@PathVariable Long productId) {
-        List<RuleProduct> ruleProductList = ruleProductService.findAllRulesProduct(productId);
-        if (ruleProductList.isEmpty()) {
+    public ResponseEntity<List<Rule>> getAllRulesProduct(@PathVariable Long productId) {
+        List<Rule> ruleList = ruleService.findAllRulesProduct(productId);
+        if (ruleList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(ruleProductList);
+        return ResponseEntity.ok(ruleList);
     }
 }

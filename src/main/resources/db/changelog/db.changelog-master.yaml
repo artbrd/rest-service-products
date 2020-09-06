@@ -1,0 +1,179 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 1
+      author: ther_usert
+      changes:
+        - sql:
+            splitStatements: true
+            sql: drop table if exists "rule" cascade
+        - sql:
+            splitStatements: true
+            sql: drop table if exists "product" cascade
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: name
+                  type: varchar(500)
+                  constraints:
+                    - unique: true
+                    - nullable: false
+              - column:
+                  name: start_sum_cred
+                  type: numeric(17,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: end_sum_cred
+                  type: numeric(17,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: percent
+                  type: numeric(5,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: term
+                  type: integer
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: date_create
+                  type: date
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: date_update
+                  type: date
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    - nullable: false
+        - createTable:
+            tableName: rule
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: start_salary
+                  type: numeric(17,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: end_salary
+                  type: numeric(17,2)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: is_debt
+                  type: boolean
+                  constraints:
+                    - nullable: true
+              - column:
+                  name: date_create
+                  type: date
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: date_update
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: id_product
+                  type: BIGINT
+                  constraints:
+                    - nullable: false
+                    - foreignKeyName: fk_rule_product
+                    - references: product(id)
+  - changeSet:
+      id: 2
+      author: other_usert
+      changes:
+        - loadData:
+            encoding:  UTF-8
+            file:  data/product.csv
+            separator: ;
+            tableName: product
+            primaryKey: id
+            schemaName: public
+            columns:
+              - column:
+                  name: id
+                  type: numeric
+              - column:
+                  name: name
+                  type: string
+              - column:
+                  name: start_sum_cred
+                  type: numeric
+              - column:
+                  name: end_sum_cred
+                  type: numeric
+              - column:
+                  name: percent
+                  type: numeric
+              - column:
+                  name: term
+                  type: numeric
+              - column:
+                  name: date_create
+                  type: date
+              - column:
+                  name: date_update
+                  type: date
+              - column:
+                  name: is_active
+                  type: boolean
+        - loadData:
+            encoding: UTF-8
+            file: data/rule.csv
+            separator: ;
+            tableName: rule
+            columns:
+              - column:
+                  name: id
+                  type: numeric
+              - column:
+                  name: start_salary
+                  type: numeric
+              - column:
+                  name: end_salary
+                  type: numeric
+              - column:
+                  name: is_debt
+                  type: boolean
+              - column:
+                  name: date_create
+                  type: date
+              - column:
+                  name: date_update
+                  type: date
+              - column:
+                  name: is_active
+                  type: boolean
+              - column:
+                  name: id_product
+                  type: numeric
