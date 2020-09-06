@@ -11,6 +11,9 @@ import java.util.Date;
 @Entity
 @Table(name = "rule")
 @JsonIgnoreProperties({"isActive", "product", "dateCreate", "dateUpdate"})
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Rule implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +43,7 @@ public class Rule implements Serializable {
     private boolean isActive = true;
 
     //@JsonIgnore
+    //@ManyToOne(fetch = FetchType.EAGER)
     @ManyToOne
     @JoinColumn(name = "id_product", nullable = false)
     private Product product;

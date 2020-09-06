@@ -12,6 +12,9 @@ import java.util.Set;
 @Entity
 @Table(name = "product")
 @JsonIgnoreProperties({"isActive", "rules", "dateCreate", "dateUpdate"})
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +49,9 @@ public class Product implements Serializable {
     @Column(name = "is_active")
     private boolean isActive = true;
 
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    //@JsonIgnore
     private Set<Rule> rules;
 
     public long getId() {

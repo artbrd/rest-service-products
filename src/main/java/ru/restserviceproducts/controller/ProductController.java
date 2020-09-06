@@ -54,7 +54,9 @@ public class ProductController {
     @DeleteMapping(value = "/{productId}/rules/{ruleId}")
     public ResponseEntity<?> deleteRule(@PathVariable Long productId,
                                         @PathVariable Long ruleId) {
-        ruleService.deleteRule(productId, ruleId);
+        if (!ruleService.deleteRule(productId, ruleId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         return ResponseEntity.ok().body(null);
     }
 

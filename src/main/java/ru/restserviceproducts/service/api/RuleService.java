@@ -8,5 +8,5 @@ import java.util.List;
 public interface RuleService {
     List<Rule> findAllRulesProduct(Long id);
     void addRule(Product product, Rule rule);
-    void deleteRule(Long productId, Long ruleId);
+    boolean deleteRule(Long productId, Long ruleId);
 }

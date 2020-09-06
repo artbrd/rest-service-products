@@ -29,9 +29,14 @@ public class RuleServiceImpl implements RuleService {
 
     @Override
     @Transactional
-    public void deleteRule(Long productId, Long ruleId) {
+    public boolean deleteRule(Long productId, Long ruleId) {
         Rule rule = ruleRepository.findByProductIdAndId(productId, ruleId).orElse(null);
+        if (rule == null) {
+            return false;
+        }
         rule.setIsActive(false);
         ruleRepository.save(rule);
+
+        return true;
     }
 }
