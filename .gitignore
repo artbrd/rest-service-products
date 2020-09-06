@@ -1,3 +1,6 @@
-*.iml
 .idea
+*.iws
+*.iml
+*.ipr
 /src/database/**.*
+/target/**.*
