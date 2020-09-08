@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -45,9 +45,10 @@ public class ProductController {
     public ResponseEntity<?> addRule(@PathVariable Long productId,
                         @Valid @RequestBody Rule ruleProduct) {
         Product product = productService.findById(productId);
-        if (product != null) {
-            ruleService.addRule(product, ruleProduct);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        ruleService.addRule(product, ruleProduct);
         return ResponseEntity.ok().body(null);
     }
 

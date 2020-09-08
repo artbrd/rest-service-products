@@ -1,0 +1,4 @@
+id;name;start_sum_cred;end_sum_cred;percent;term;date_create;date_update;is_active
+1;product_1;0;200000;6;36;2020-09-02;2020-09-02;true
+2;product_2;0;999999999999;15;0;2020-09-02;2020-09-02;true
+3;product_3;0;1000000;12;60;2020-09-02;2020-09-02;true

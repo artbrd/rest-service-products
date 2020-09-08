@@ -86,11 +86,11 @@ public class Product implements Serializable {
         this.endSumCred = endSumCred;
     }
 
-    public Long getPercent() {
+    public long getPercent() {
         return percent;
     }
 
-    public void setPercent(Long percent) {
+    public void setPercent(long percent) {
         this.percent = percent;
     }
 
@@ -117,8 +117,6 @@ public class Product implements Serializable {
     public void setDateUpdate(Date dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
-
-    public void setPercent(long percent) { this.percent = percent; }
 
     public boolean getIsActive() { return isActive; }
 
