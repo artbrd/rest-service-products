@@ -10,6 +10,7 @@ import ru.restserviceproducts.entity.Product;
 import ru.restserviceproducts.entity.Rule;
 import ru.restserviceproducts.service.api.ProductService;
 import ru.restserviceproducts.service.api.RuleService;
+import ru.restserviceproducts.service.impl.RabbitMqSender;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,6 +23,9 @@ public class ProductController {
 
     @Autowired
     private RuleService ruleService;
+
+    @Autowired
+    RabbitMqSender rabbitMqSender;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
@@ -68,6 +72,19 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(productList);
+    }
+
+    @PutMapping(value = "/{productId}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long productId,
+                                           @Valid @RequestBody Product product) {
+        rabbitMqSender.sendMessageUpdate(productId, product);
+        return ResponseEntity.ok().body(null);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addProduct(@Valid @RequestBody Product product) {
+        rabbitMqSender.sendMessageAdd(product);
+        return ResponseEntity.ok().body(null);
     }
 
     @GetMapping(value = "/{productId}")

@@ -9,4 +9,6 @@ public interface ProductService {
     List<Product> findAll();
     Product findById(Long id);
     List<Product> getProductForClient(ClientInfo clientInfo);
+    void updateProduct(Product product);
+    void saveProduct(Product product);
 }

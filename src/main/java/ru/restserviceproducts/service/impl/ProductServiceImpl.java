@@ -30,4 +30,22 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductForClient(ClientInfo clientInfo) {
         return productRepository.findProductForClitn(clientInfo.getSalary(), clientInfo.getClaim(), clientInfo.getIsDebtor());
     }
+
+    @Override
+    public void updateProduct(Product product) {
+        Product foundProduct = productRepository.findById(product.getId()).orElse(null);
+        if (foundProduct != null) {
+            foundProduct.setName(product.getName());
+            foundProduct.setTerm(product.getTerm());
+            foundProduct.setEndSumCred(product.getEndSumCred());
+            foundProduct.setStartSumCred(product.getStartSumCred());
+            foundProduct.setPercent(product.getPercent());
+            productRepository.save(foundProduct);
+        }
+    }
+
+    @Override
+    public void saveProduct(Product product) {
+        productRepository.save(product);
+    }
 }

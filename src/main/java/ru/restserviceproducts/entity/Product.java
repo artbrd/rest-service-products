@@ -1,6 +1,7 @@
 package ru.restserviceproducts.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "product")
 @JsonIgnoreProperties({"isActive", "rules", "dateCreate", "dateUpdate"})
+//@Data
 //@JsonIdentityInfo(
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
 //        property = "id")
