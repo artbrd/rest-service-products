@@ -9,8 +9,8 @@ import ru.restserviceproducts.dto.ClientInfo;
 import ru.restserviceproducts.entity.Product;
 import ru.restserviceproducts.entity.Rule;
 import ru.restserviceproducts.service.api.ProductService;
+import ru.restserviceproducts.service.api.RabbitMqSender;
 import ru.restserviceproducts.service.api.RuleService;
-import ru.restserviceproducts.service.impl.RabbitMqSender;
 
 import javax.validation.Valid;
 import java.util.List;
