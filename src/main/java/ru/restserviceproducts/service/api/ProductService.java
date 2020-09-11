@@ -10,5 +10,5 @@ public interface ProductService {
     Product findById(Long id);
     List<Product> getProductForClient(ClientInfo clientInfo);
     void updateProduct(Product product);
-    void saveProduct(Product product);
+    void saveProduct(Product product) throws Exception;
 }

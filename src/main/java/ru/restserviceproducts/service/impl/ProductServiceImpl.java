@@ -2,8 +2,11 @@ package ru.restserviceproducts.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.restserviceproducts.dto.ClientInfo;
 import ru.restserviceproducts.entity.Product;
+import ru.restserviceproducts.exception.rabbit.SaveException;
+import ru.restserviceproducts.exception.rabbit.UpdateException;
 import ru.restserviceproducts.repository.ProductRepository;
 import ru.restserviceproducts.service.api.ProductService;
 
@@ -32,9 +35,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Product product) {
-        Product foundProduct = productRepository.findById(product.getId()).orElse(null);
-        if (foundProduct != null) {
+    @Transactional
+    public void updateProduct(Product product) throws UpdateException {
+        try {
+            Product foundProduct = productRepository.findById(product.getId()).orElse(null);
+
             foundProduct.setName(product.getName());
             foundProduct.setTerm(product.getTerm());
             foundProduct.setEndSumCred(product.getEndSumCred());
@@ -42,10 +47,22 @@ public class ProductServiceImpl implements ProductService {
             foundProduct.setPercent(product.getPercent());
             productRepository.save(foundProduct);
         }
+        catch (IllegalArgumentException e1) {
+            throw new UpdateException("Product by id " + product.getId() + " is not found");
+        }
+        catch (Exception e2) {
+            throw new UpdateException("Exception update product");
+        }
     }
 
     @Override
-    public void saveProduct(Product product) {
-        productRepository.save(product);
+    @Transactional
+    public void saveProduct(Product product) throws SaveException {
+        try {
+            productRepository.save(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SaveException("Exception save product");
+        }
     }
 }

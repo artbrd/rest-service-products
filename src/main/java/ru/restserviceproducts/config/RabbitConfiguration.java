@@ -12,6 +12,7 @@ public class RabbitConfiguration {
     public static final String EXCHANGE_ORDERS = "orders-exchange";
     public static final String QUEUE_ADD_PRODUCT = "queue-add";
     public static final String QUEUE_UPDATE_PRODUCT = "queue-update";
+    public static final String DEAD_QUEUE_NAME = "dead-queue";
     public static final String ROUTING_KEY_ADD = "ADD";
     public static final String ROUTING_KEY_UPDATE = "UPDATE";
 
@@ -22,12 +23,18 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue appQueueAdd() {
-        return new Queue(QUEUE_ADD_PRODUCT);
+        return QueueBuilder.durable(QUEUE_ADD_PRODUCT)
+                .withArgument("x-dead-letter-exchange", "")
+                .withArgument("x-dead-letter-routing-key", DEAD_QUEUE_NAME)
+                .build();
     }
 
     @Bean
     public Queue appQueueUpdate() {
-        return new Queue(QUEUE_UPDATE_PRODUCT);
+        return QueueBuilder.durable(QUEUE_UPDATE_PRODUCT)
+                .withArgument("x-dead-letter-exchange", "")
+                .withArgument("x-dead-letter-routing-key", DEAD_QUEUE_NAME)
+                .build();
     }
 
     @Bean
@@ -38,6 +45,11 @@ public class RabbitConfiguration {
     @Bean
     public Binding declareBindingUpdate() {
         return BindingBuilder.bind(appQueueUpdate()).to(appExchange()).with(ROUTING_KEY_UPDATE);
+    }
+
+    @Bean
+    Queue deadLetterQueue() {
+        return QueueBuilder.durable(DEAD_QUEUE_NAME).build();
     }
 
     @Bean
