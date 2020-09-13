@@ -1,4 +1,4 @@
-id;start_salary;end_salary;is_debt;date_create;date_update;is_active;id_product
+id;start_salary;end_salary;is_debt;date_create;date_update;active;id_product
 1;50000;999999999999;false;2020-09-02;2020-09-02;true;1
 2;0;999999999999;false;2020-09-02;2020-09-02;true;2
 3;25000;999999999999;null;2020-09-02;2020-09-02;true;3

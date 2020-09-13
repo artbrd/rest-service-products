@@ -1,8 +1,8 @@
 package ru.restserviceproducts.service.api;
 
-import ru.restserviceproducts.entity.Product;
+import ru.restserviceproducts.dto.ProductDto;
 
 public interface RabbitMqListener {
-    void listenAddQueue(Product product);
-    void listenUpdateQueue(Product product);
+    void listenAddQueue(ProductDto productDto);
+    void listenUpdateQueue(ProductDto productDto);
 }

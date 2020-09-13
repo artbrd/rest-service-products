@@ -1,4 +1,4 @@
-package ru.restserviceproducts;
+package ru.restserviceproducts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.restserviceproducts.dto.ClientInfo;
+import ru.restserviceproducts.dto.ClientInfoDto;
 import ru.restserviceproducts.entity.Rule;
 import ru.restserviceproducts.service.api.ProductService;
 
@@ -128,14 +128,14 @@ public class ProductControllerTest {
 
     @Test
     public void getPoductsForClientTest() throws Exception {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setSalary(60000L);
-        clientInfo.setClaim(300000L);
-        clientInfo.setIsDebtor(false);
+        ClientInfoDto clientInfoDto = new ClientInfoDto();
+        clientInfoDto.setSalary(60000L);
+        clientInfoDto.setClaim(300000L);
+        clientInfoDto.setIsDebtor(false);
 
         mockMvc.perform(post("/products/apply")
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(clientInfo)))
+                        .content(objectMapper.writeValueAsString(clientInfoDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
@@ -156,15 +156,17 @@ public class ProductControllerTest {
 
     @Test
     public void getPoductsForClientBadTest() throws Exception {
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setSalary(60000L);
-        clientInfo.setClaim(3000000L);
-        clientInfo.setIsDebtor(true);
+        ClientInfoDto clientInfoDto = new ClientInfoDto();
+        clientInfoDto.setSalary(600000L);
+        clientInfoDto.setClaim(3000000L);
+        clientInfoDto.setIsDebtor(true);
 
         mockMvc.perform(post("/products/apply")
                 .contentType("application/json")
-                .content(objectMapper.writeValueAsString(clientInfo)))
+                .content(objectMapper.writeValueAsString(clientInfoDto)))
                 .andDo(print())
+                .andExpect(jsonPath("$.status", is("Reject")))
+                .andExpect(jsonPath("$.message", is("Can not found matching product for client")))
                 .andExpect(status().is4xxClientError());
     }
 }

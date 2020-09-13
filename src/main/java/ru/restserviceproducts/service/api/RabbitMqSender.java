@@ -1,8 +1,8 @@
 package ru.restserviceproducts.service.api;
 
-import ru.restserviceproducts.entity.Product;
+import ru.restserviceproducts.dto.ProductDto;
 
 public interface RabbitMqSender {
-    void sendMessageUpdate(Long productId, Product product);
-    void sendMessageAdd(Product product);
+    void sendMessageUpdate(Long productId, ProductDto productDto);
+    void sendMessageAdd(ProductDto productDto);
 }

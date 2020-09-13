@@ -57,7 +57,7 @@ databaseChangeLog:
                   constraints:
                     - nullable: true
               - column:
-                  name: is_active
+                  name: active
                   type: boolean
                   constraints:
                     - nullable: false
@@ -97,7 +97,7 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
-                  name: is_active
+                  name: active
                   type: boolean
                   constraints:
                     - nullable: false
@@ -145,7 +145,7 @@ databaseChangeLog:
                   name: date_update
                   type: date
               - column:
-                  name: is_active
+                  name: active
                   type: boolean
         - loadData:
             encoding: UTF-8
@@ -172,7 +172,7 @@ databaseChangeLog:
                   name: date_update
                   type: date
               - column:
-                  name: is_active
+                  name: active
                   type: boolean
               - column:
                   name: id_product

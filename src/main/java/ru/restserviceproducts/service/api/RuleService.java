@@ -1,12 +1,14 @@
 package ru.restserviceproducts.service.api;
 
-import ru.restserviceproducts.entity.Product;
-import ru.restserviceproducts.entity.Rule;
+import ru.restserviceproducts.dto.ProductDto;
+import ru.restserviceproducts.dto.RuleDto;
+import ru.restserviceproducts.exception.DataNotFoundException;
+import ru.restserviceproducts.exception.SaveException;
 
 import java.util.List;
 
 public interface RuleService {
-    List<Rule> findAllRulesProduct(Long id);
-    void addRule(Product product, Rule rule);
-    boolean deleteRule(Long productId, Long ruleId);
+    List<RuleDto> findAllRulesProduct(Long id) throws DataNotFoundException;
+    void addRule(ProductDto productDto, RuleDto ruleDto);
+    void deleteRule(Long productId, Long ruleId) throws DataNotFoundException, SaveException;
 }

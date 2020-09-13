@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface RuleRepository extends JpaRepository<Rule, Long> {
-    List<Rule> findByIsActiveTrueAndProductId(Long id);
+    List<Rule> findByActiveTrueAndProductId(Long id);
     Optional<Rule> findByProductIdAndId(Long productId, Long ruleId);
 }
